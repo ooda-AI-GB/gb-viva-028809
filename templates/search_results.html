@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Search Recipes</h2>
+
+    <form action="/search" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Search by name, ingredient, or cuisine..." value="{{ query if query else '' }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query and recipes %}
+        <h3>Results for "{{ query }}"</h3>
+        <div class="recipe-grid">
+            {% for recipe in recipes %}
+                <a href="/recipes/{{ recipe.id }}" class="recipe-card">
+                    <div class="recipe-card-image" style="background-color: {{ recipe.image_color }};"></div>
+                    <div class="recipe-card-content">
+                        <h3>{{ recipe.name }}</h3>
+                        <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
+                        <div class="meta-info">
+                            <span>Prep: {{ recipe.prep_time }}</span>
+                            <span>Cook: {{ recipe.cook_time }}</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% elif query and not recipes %}
+        <p>No recipes found matching "{{ query }}".</p>
+    {% elif not query %}
+        <p>Enter a search term to find recipes.</p>
+    {% endif %}
+{% endblock %}

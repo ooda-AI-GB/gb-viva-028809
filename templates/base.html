@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Recipe Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream-background: #fdf5e6; /* A warm, inviting cream */
+            --warm-brown: #8B4513;     /* A rich, warm brown */
+            --orange-accent: #FF8C00;  /* A vibrant orange for accents */
+            --light-orange: #FFA07A;   /* Lighter orange for subtle highlights */
+            --text-color: #333;
+            --card-background: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--cream-background);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        header {
+            background-color: var(--warm-brown);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--orange-accent);
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .recipe-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .recipe-card-image {
+            width: 100%;
+            height: 180px;
+            background-color: var(--light-orange); /* Default placeholder color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .recipe-card-content {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recipe-card-content h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--warm-brown);
+            font-size: 1.4rem;
+        }
+
+        .recipe-card-content p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .recipe-card-content .meta-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: auto; /* Pushes meta info to the bottom */
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .button, button, input[type="submit"] {
+            display: inline-block;
+            background-color: var(--orange-accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover, button:hover, input[type="submit"]:hover {
+            background-color: var(--light-orange);
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+            background-color: #f0ead6; /* Slightly darker cream for footer */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        /* Recipe Detail Page Specific */
+        .recipe-detail {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            margin-top: 30px;
+        }
+
+        .recipe-detail h2 {
+            color: var(--warm-brown);
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .recipe-detail .meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .recipe-detail .meta span {
+            display: block;
+        }
+
+        .recipe-detail .meta strong {
+            color: var(--warm-brown);
+        }
+
+        .recipe-detail .sections {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-top: 25px;
+        }
+
+        .recipe-detail .ingredients,
+        .recipe-detail .instructions {
+            background-color: #fdfaf5; /* Slightly lighter cream */
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #f0ead6;
+        }
+
+        .recipe-detail .ingredients h3,
+        .recipe-detail .instructions h3 {
+            color: var(--orange-accent);
+            margin-top: 0;
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--light-orange);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .recipe-detail .ingredients ul,
+        .recipe-detail .instructions ol {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .recipe-detail .ingredients li,
+        .recipe-detail .instructions li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.05rem;
+        }
+
+        .recipe-detail .ingredients li::before {
+            content: '•';
+            color: var(--orange-accent);
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .recipe-detail .instructions li::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            background-color: var(--orange-accent);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .instructions ol {
+            counter-reset: step-counter;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+            nav ul {
+                margin-top: 10px;
+            }
+            nav ul li {
+                margin: 0 10px;
+            }
+            .recipe-detail .sections {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="/">Recipe Book</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/add_recipe">Add Recipe</a></li>
+                    <li><a href="/search">Search</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Personal Recipe Book. All rights reserved.</p>
+    </footer>
+</body>
+</html>

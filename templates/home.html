@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>All Recipes</h2>
+    <div class="recipe-grid">
+        {% for recipe in recipes %}
+            <a href="/recipes/{{ recipe.id }}" class="recipe-card">
+                <div class="recipe-card-image" style="background-color: {{ recipe.image_color }};"></div>
+                <div class="recipe-card-content">
+                    <h3>{{ recipe.name }}</h3>
+                    <p><strong>Cuisine:</strong> {{ recipe.cuisine }}</p>
+                    <div class="meta-info">
+                        <span>Prep: {{ recipe.prep_time }}</span>
+                        <span>Cook: {{ recipe.cook_time }}</span>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <p>No recipes found. Why not <a href="/add_recipe">add one</a>?</p>
+        {% endfor %}
+    </div>
+{% endblock %}

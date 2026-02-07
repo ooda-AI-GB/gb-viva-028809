@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Add New Recipe</h2>
+
+    {% if message %}
+        <div class="message success">{{ message }}</div>
+    {% endif %}
+    {% if error %}
+        <div class="message error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/add_recipe" method="post">
+        <div class="form-group">
+            <label for="name">Recipe Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="cuisine">Cuisine Type:</label>
+            <input type="text" id="cuisine" name="cuisine" required>
+        </div>
+        <div class="form-group">
+            <label for="prep_time">Preparation Time:</label>
+            <input type="text" id="prep_time" name="prep_time" placeholder="e.g., 15 min" required>
+        </div>
+        <div class="form-group">
+            <label for="cook_time">Cook Time:</label>
+            <input type="text" id="cook_time" name="cook_time" placeholder="e.g., 30 min" required>
+        </div>
+        <div class="form-group">
+            <label for="servings">Servings:</label>
+            <input type="text" id="servings" name="servings" placeholder="e.g., 4" required>
+        </div>
+        <div class="form-group">
+            <label for="ingredients">Ingredients (comma-separated):</label>
+            <textarea id="ingredients" name="ingredients" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="instructions">Instructions (dot-separated for steps):</label>
+            <textarea id="instructions" name="instructions" rows="8" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image_color">Image Placeholder Color (Hex code, e.g., #FF8C00):</label>
+            <input type="text" id="image_color" name="image_color" value="#cccccc">
+        </div>
+        <button type="submit">Add Recipe</button>
+    </form>
+{% endblock %}
